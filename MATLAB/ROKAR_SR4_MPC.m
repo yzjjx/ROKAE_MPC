@@ -50,7 +50,7 @@ for k = 1:k_steps
 
     if k == 1
         tau_linearize = zeros(p,1);
-    else
+    else               
         tau_linearize = U_K(:,k-1);
     end
 

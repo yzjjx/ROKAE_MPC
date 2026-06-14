@@ -195,5 +195,12 @@ A_sym = casadi.jacobian(dotX_sym, X_sym)
     图 ：下载适用于MATLAB的CasADi
 </div>
 
+最后测试没加入重力补偿的代码效果如图 
+
+<div align="center">
+    <img src="fig\fig_2\test1.jpg">
+    <br>
+    图 ：代码运行结果(不加重力补偿)
+</div>
 
 使用CasADi在MATLAB里面加载生成的C代码
