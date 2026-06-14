@@ -1,4 +1,4 @@
-# 该代码用来生成后续计算所需要的机器人M矩阵、C矩阵和G矩阵
+# 该代码用来生成矩阵dotX，详细见README文档
 import casadi
 import pinocchio as pin
 # 导入Pinocchio的CasADi接口
@@ -22,6 +22,8 @@ ndq = cmodel.nv #获取速度变量的维度
 # DM：数值矩阵，不是符号变量
 cq = casadi.SX.sym('q', nq, 1)# 创建一个名为q的符号列向量，维度为nq*1
 cdq = casadi.SX.sym('dq', ndq, 1)
+# 创建力矩输入 tau
+ctau = casadi.SX.sym('tau', ndq, 1)
 
 # 调用 Pinocchio-CasADi底层算法进行符号计算
 # 符号推导惯性矩阵 M(q)
@@ -40,16 +42,32 @@ C_sym = cdata.C
 cpin.computeGeneralizedGravity(cmodel, cdata, cq)
 G_sym = cdata.g
 
-# 将这些符号表达式打包成一个CasADi函数，函数名称为compute_dynamics
-# 输入：[q, dq]   输出：[M, C, G]
-dyn_func = casadi.Function('compute_dynamics', 
-                           [cq, cdq], [M_sym, C_sym, G_sym], 
-                           ['q', 'dq'], ['M', 'C', 'G'])
+# # 将这些符号表达式打包成一个CasADi函数，函数名称为compute_dynamics
+# # 输入：[q, dq]   输出：[M, C, G]
+# dyn_func = casadi.Function('compute_dynamics', 
+#                            [cq, cdq], [M_sym, C_sym, G_sym], 
+#                            ['q', 'dq'], ['M', 'C', 'G'])
 
-# 自动生成纯 C 语言代码
-# 生成对应的 .h 头文件
-opts = dict(main=False, mex=False, with_header=True)
-# 生成C代码
-dyn_func.generate('robot_dynamics.c', opts)
+# # 自动生成纯 C 语言代码
+# # 生成对应的 .h 头文件
+# opts = dict(main=False, mex=False, with_header=True)
+# # 生成C代码
+# dyn_func.generate('robot_dynamics.c', opts)
+# M本身就是对称矩阵
+ddq_sym = casadi.solve(M_sym, ctau - C_sym @ cdq - G_sym)
+dotX_sym = casadi.vertcat(cdq, ddq_sym)
 
-print("成功生成 robot_dynamics.c 和 robot_dynamics.h")
+# 打包成 CasADi 函数
+dotX_func = casadi.Function(
+    'compute_dotX',
+    [cq, cdq, ctau],
+    [dotX_sym],
+    ['q', 'dq', 'tau'],
+    ['dotX']
+)
+
+# 生成 C 代码
+opts = dict(main=False, mex=True, with_header=True)
+dotX_func.generate('robot_dotX.c', opts)
+
+print("成功生成 robot_dotX.c 和 robot_dotX.h")

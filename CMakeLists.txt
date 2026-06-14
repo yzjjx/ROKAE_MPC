@@ -9,7 +9,9 @@ list(APPEND CMAKE_PREFIX_PATH "F:/ProgramData/anaconda3/envs/mpc_rokae/Library")
 find_package(pinocchio CONFIG REQUIRED)
 
 add_executable(mpc_node 
-    test/test_dynamics.cpp
+    # test/test_dynamics.cpp
+    src/dynamics_com_tau.cpp
+    src/robot_dynamics.c
 )
 
 target_link_libraries(mpc_node PRIVATE pinocchio::pinocchio)
