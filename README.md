@@ -195,7 +195,30 @@ A_sym = casadi.jacobian(dotX_sym, X_sym)
     图 ：下载适用于MATLAB的CasADi
 </div>
 
-最后测试没加入重力补偿的代码效果如图 
+### 2.2 使用CasADi在MATLAB里面加载生成的C代码
+首先需要在python的代码加入
+
+```python
+# 生成 C 代码
+opts = dict(main=False, mex=True, with_header=True)
+```
+
+其中，`mex=True`用来在.c文件加入MATLAB的mex编译接口，这样在matlab中就可以使用指令`mex robot_AB.c`编译出来对应的mexw64文件，也就是需要先在MTALAB的命令行输入下面的代码：
+
+<div align="center">
+    <img src="fig\fig_2\mex_matlab.png">
+    <br>
+    图 ：代码运行结果(不加重力补偿)
+</div>
+
+将两个c函数都编译之后，就可以直接在MATLAB中调用函数，例如代码
+
+```matlab
+dotX_current = robot_dotX(q_current, dq_current, U_K(:,k));
+```
+### 2.3 代码运行效果
+详细代码参见`MATLAB\ROKAR_SR4_MPC.m`  
+最后测试没加入重力补偿，代码效果如图 
 
 <div align="center">
     <img src="fig\fig_2\test1.jpg">
@@ -203,4 +226,3 @@ A_sym = casadi.jacobian(dotX_sym, X_sym)
     图 ：代码运行结果(不加重力补偿)
 </div>
 
-使用CasADi在MATLAB里面加载生成的C代码

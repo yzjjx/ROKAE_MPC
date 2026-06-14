@@ -4,6 +4,11 @@ clear; close all; clc;
 %% 添加 mex 文件路径
 addpath('../python');
 
+% cd ../python
+% 
+% mex robot_AB.c -largeArrayDims
+% mex robot_dotX.c -largeArrayDims
+
 %% 机器人维度
 nq = 6;
 ndq = 6;
