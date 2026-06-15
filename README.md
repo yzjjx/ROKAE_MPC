@@ -21,7 +21,7 @@ $$
 
 在力矩控制中， $\ddot q$ 不是独立的状态，而是由ABA动力学方程计算出来的结果  
 中间过程：  
-首先需要轨迹规划器用来规划轨迹，得到对应的 $q$ 和 $\dot{q}$  ，MPC需要求解最优的 $\tau$ ，为了知道这个 $\tau$ 作用后下一步机器人的状态 $q_{k+1},\dot{q}_{k+1}$ ,需要用到机械臂的动力学方程 $M(q)\ddot{q}+C(q,\dot{q})\dot{q}+G(q)=\tau$ ，所以在给定上一时刻的力矩 $\tau_k$ 后，必须通过ABA算法先计算 $\ddot{q}_k$ ，然后根据离散积分来推测下一时刻的机器人状态 $q_{k+1},\dot{q}_{k+1}$   
+首先需要轨迹规划器用来规划轨迹，得到对应的 $q$ 和 $\dot{q}$  ，MPC需要求解最优的 $\tau$ ，为了知道这个 $\tau$ 作用后下一步机器人的状态 $q\_{k+1},\dot{q}_{k+1}$ ,需要用到机械臂的动力学方程 $M(q)\ddot{q}+C(q,\dot{q})\dot{q}+G(q)=\tau$ ，所以在给定上一时刻的力矩 $\tau_k$ 后，必须通过ABA算法先计算 $\ddot{q}_k$ ，然后根据离散积分来推测下一时刻的机器人状态 $q_{k+1},\dot{q}_{k+1}$   
 类比倒立摆，也就是在定义状态变量X后，还要对其求导，得到非线性状态空间方程；也就相当于线性状态空间方程中的 $\dot{x}(t)=Ax(t)+Bu(t)$ 公式一个道理  
 同时，在控制频率很高时，可以使用上一时刻的控制指令 $u_{k-1}$ ,来输入一阶泰勒展开公式，来进行非线性方程的线性化，即：
 
@@ -208,7 +208,7 @@ opts = dict(main=False, mex=True, with_header=True)
 <div align="center">
     <img src="fig\fig_2\mex_matlab.png">
     <br>
-    图 ：代码运行结果(不加重力补偿)
+    图 ：MATLAB编译过程
 </div>
 
 将两个c函数都编译之后，就可以直接在MATLAB中调用函数，例如代码
@@ -216,9 +216,12 @@ opts = dict(main=False, mex=True, with_header=True)
 ```matlab
 dotX_current = robot_dotX(q_current, dq_current, U_K(:,k));
 ```
-### 2.3 代码运行效果
-详细代码参见`MATLAB\ROKAR_SR4_MPC.m`  
-最后测试没加入重力补偿，代码效果如图 
+### 2.3 加入重力补偿
+所谓加入重力补偿，就是要在动力学公式中提取出来矩阵 $G(q)$
+
+### 2.4 代码运行效果
+不加入重力补偿，详细代码参见`MATLAB\ROKAE_SR4_MPC.m`  
+没加入重力补偿，代码效果如图 
 
 <div align="center">
     <img src="fig\fig_2\test1.jpg">
@@ -226,3 +229,11 @@ dotX_current = robot_dotX(q_current, dq_current, U_K(:,k));
     图 ：代码运行结果(不加重力补偿)
 </div>
 
+加入重力补偿，详细代码参见`MATLAB\ROKAE_SR4_MPC_G.m`  
+加入重力补偿，代码效果如图
+
+<div align="center">
+    <img src="fig\fig_2\test2_add_G.jpg">
+    <br>
+    图 ：代码运行结果(加入重力补偿)
+</div>
