@@ -237,3 +237,36 @@ dotX_current = robot_dotX(q_current, dq_current, U_K(:,k));
     <br>
     图 ：代码运行结果(加入重力补偿)
 </div>
+
+## 3 Windows下的Pinocchio配置：以ROKAE SR4协作机器人为例
+首先要打开Mujoco的官网，下载Mujoco：https://mujoco.org/
+
+<div align="center">
+    <img src="fig\fig_3\install1.png">
+    <br>
+    图 ：下载Mujoco
+</div>
+
+之后，选择自己系统对应的版本，因为前期主要集中在Windows仿真，因此选择Windows平台下载
+
+<div align="center">
+    <img src="fig\fig_3\install2.png">
+    <br>
+    图 ：选择对应版本
+</div>
+
+安装完成后，在bin目录找到simulate软件，然后将对应的XML文件拖入这个simulate软件，就可以实现仿真环境的显示
+
+<div align="center">
+    <img src="fig\fig_3\install3.png">
+    <br>
+    图 ：仿真环境打开
+</div>
+
+<div align="center">
+    <img src="fig\fig_3\install4.png">
+    <br>
+    图 ：机器人显示
+</div>
+
+## 4 基于ABA正动力学的关节空间力矩MPC仿真：Mujoco
