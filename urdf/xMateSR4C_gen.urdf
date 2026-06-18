@@ -31,6 +31,7 @@
   <joint name="fixed" type="fixed">
     <parent link="world"/>
     <child link="xMateSR4C_base"/>
+    <!-- base关节与world固定连接，因此不用修改质量、惯量、质心等参数，不参与动力学计算 -->
   </joint>
   <link name="xMateSR4C_base">
     <visual>
@@ -41,8 +42,11 @@
       <material name="white"/>
     </visual>
     <inertial>
-      <mass value="3.44074938"/>
-      <inertia ixx="0.01764837" ixy="0" ixz="0" iyy="0.016617391" iyz="-0.002218013" izz="1.120163944"/>
+      <!-- 质量参数 -->
+      <mass value="3.16699999486378"/>
+      <!-- 惯性张量 -->
+      <inertia ixx=" 0.058267910813839" ixy="-3.715826953316560e-07" ixz="-1.05949175179955e-06" iyy=" 0.0576103483714700" iyz="-0.00456914016524626" izz=" 0.00607968319952077"/>
+      <!-- 质心参数 -->
       <origin rpy="0 0 0" xyz="-0.000072769597 -0.001679187012 0.002986854502"/>
     </inertial>
     <collision>
@@ -58,7 +62,7 @@
     <child link="xMateSR4C_link1"/>
     <limit effort="300" lower="-3.1416" upper="3.1416" velocity="10"/>
     <axis xyz="0 0 1"/>
-    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
   <transmission name="tran1">
     <type>transmission_interface/SimpleTransmission</type>
@@ -76,13 +80,13 @@
       <geometry>
         <mesh filename="../stl/xMateSR4C_link1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 0 0.355"/>
+      <origin rpy="0 0 0" xyz="0 0 0.328"/>
       <material name="white"/>
     </visual>
     <inertial>
       <origin xyz="1.09999999999679e-05 -0.00799199999999364 -0.0921580000000931" rpy="0 0 0"/>
       <mass value="3.16699999486378"/>
-      <inertia ixx="0.0311679899460595" ixy="-6.49999998879087e-07" ixz="-4.26999999258665e-06" iyy="0.0307127099468431" iyz="-0.00223655999611672" izz="0.00587739998995415"/>
+      <inertia ixx="0.058267910813839" ixy="-3.715826953316560e-07" ixz="-1.05949175179955e-06" iyy="0.0576103483714700" iyz="-0.00456914016524626" izz="0.00607968319952077"/>
     </inertial>
     <collision>
       <geometry>
@@ -97,7 +101,7 @@
     <child link="xMateSR4C_link2"/>
     <limit effort="300" lower="-2.4222" upper="2.35619" velocity="10"/>
     <axis xyz="0 1 0"/>
-    <origin rpy="0 0 0" xyz="0 0 0.355"/>
+    <origin xyz="0 0 0.328" rpy="0 0 0" />
   </joint>
   <transmission name="tran2">
     <type>transmission_interface/SimpleTransmission</type>
@@ -121,7 +125,7 @@
     <inertial>
       <origin xyz="0.169304139589595 -0.0167375750841445 -0.0698168604257776" rpy="0 0 0"/>
       <mass value="3.89505775503759"/>
-      <inertia ixx="0.0179531824691758" ixy="0.0309224033095523" ixz="-0.00240843390062569" iyy="0.132852985273582" iyz="0.00071426442226283" izz="0.138139839236999"/>
+      <inertia ixx="0.0380304151034530" ixy="0.0419599871875192" ixz="0.0436322529474843" iyy="0.263486545009477" iyz="-0.00383736352324302" izz="0.250878539307793"/>
     </inertial>
     <collision>
       <geometry>
@@ -136,7 +140,7 @@
     <child link="xMateSR4C_link3"/>
     <limit effort="300" lower="-2.96555" upper="2.35619" velocity="10"/>
     <axis xyz="0 -1 0"/>
-    <origin rpy="0 0 0" xyz="0.05 0 0.4"/>
+    <origin xyz="0.050 0 0.4031" rpy="0 0 0" />
   </joint>
   <transmission name="tran3">
     <type>transmission_interface/SimpleTransmission</type>
@@ -160,7 +164,7 @@
     <inertial>
       <origin xyz="-0.00101677311184785 0.0992317670799201 -0.00599764278732221" rpy="0 0 0"/>
       <mass value="1.55161965449885"/>
-      <inertia ixx="0.0205839772508243" ixy="0.0034186607558711" ixz="0.000323904256666548" iyy="0.00322986952841047" iyz="0.00178215039218484" izz="0.0202148376332874"/>
+      <inertia ixx="0.0359185029001311" ixy="0.00357521327138579" ixz="0.000314442104644629" iyy="0.00328728806178666" iyz="0.00270560721315391" izz="0.0354951529635439"/>
     </inertial>
     <collision>
       <geometry>
@@ -175,7 +179,7 @@
     <child link="xMateSR4C_link4"/>
     <limit effort="300" lower="-3.1416" upper="3.1416" velocity="10"/>
     <axis xyz="0 0 1"/>
-    <origin rpy="0 0 0" xyz="-0.05 0 0.4"/>
+    <origin xyz="-0.050 0 0.4" rpy="0 0 0" />
   </joint>
   <transmission name="tran4">
     <type>transmission_interface/SimpleTransmission</type>
@@ -199,7 +203,7 @@
     <inertial>
       <origin xyz="-2.50011383739252e-05 -0.0109230011023275 -0.071266999970154" rpy="0 0 0"/>
       <mass value="1.8819999954753"/>
-      <inertia ixx="0.0133198499755109" ixy="-1.85000009038544e-06" ixz="8.69999115245914e-07" iyy="0.0125198899767503" iyz="-0.00143893999778065" izz="0.00278827999533888"/>
+      <inertia ixx="0.0231030453535813" ixy="-2.36395069266735e-06" ixz="-2.48326590911455e-06" iyy="0.0220785414360184" iyz="-0.00290398198945597" izz="0.00301282626685543"/>
     </inertial>
     <collision>
       <geometry>
@@ -214,7 +218,7 @@
     <child link="xMateSR4C_link5"/>
     <limit effort="300" lower="-3.1416" upper="3.1416" velocity="10"/>
     <axis xyz="0 -1 0"/>
-    <origin rpy="0 0 0" xyz="0 0.136 0"/>
+    <origin xyz="0 0.136 0" rpy="0 0 0" />
   </joint>
   <transmission name="tran5">
     <type>transmission_interface/SimpleTransmission</type>
@@ -238,7 +242,7 @@
     <inertial>
       <origin xyz="-0.00141300709545952 0.0118448713738878 -0.0209142000136706" rpy="0 0 0"/>
       <mass value="1.34621855234916"/>
-      <inertia ixx="0.00490782058915933" ixy="-1.04779487811945e-05" ixz="-9.95872429112993e-06" iyy="0.00384857289176222" iyz="0.000384368912752211" izz="0.00258053503197348"/>
+      <inertia ixx="0.00568553742802938" ixy="1.20535594054042e-05" ixz="-4.97420578495685e-05" iyy="0.00444010179654207" iyz="0.000717862262034322" izz="0.00277209865650963"/>
     </inertial>
     <collision>
       <geometry>
@@ -253,7 +257,7 @@
     <child link="xMateSR4C_link6"/>
     <limit effort="300" lower="-3.14" upper="3.14" velocity="10"/>
     <axis xyz="0 0 1"/>
-    <origin rpy="0.0 0.0 0" xyz="0 0 0.1035"/>
+    <origin xyz="0 0 0.1035" rpy="0 0 0" />
   </joint>
   <transmission name="tran6">
     <type>transmission_interface/SimpleTransmission</type>
@@ -277,7 +281,7 @@
     <inertial>
       <origin xyz="7.29993135608786e-05 7.90001800890199e-05 -0.044852999792348" rpy="0 0 0"/>
       <mass value="0.633999997351584"/>
-      <inertia ixx="0.000997019998284638" ixy="-1.37999999641383e-06" ixz="8.99999979434996e-07" iyy="0.00100252999827485" iyz="1.5800000042753e-06" izz="0.000447949999234091"/>
+      <inertia ixx="0.00227249981806468" ixy="-1.38365624835237e-06" ixz="2.97586698701961e-06" iyy="0.00227800923976532" iyz="3.82651246364623e-06" izz="0.000447957334568561"/>
     </inertial>
     <collision>
       <geometry>

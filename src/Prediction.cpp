@@ -38,8 +38,8 @@ Eigen::VectorXd Prediction(
     Eigen::VectorXd g_qp = 2.0 * (E.transpose() * x_k);
 
     // 无约束求解
-    Eigen::VectorXd lb = Eigen::VectorXd::Constant(nV,-50);
-    Eigen::VectorXd ub = Eigen::VectorXd::Constant(nV, 50);
+    Eigen::VectorXd lb = Eigen::VectorXd::Constant(nV,-300);
+    Eigen::VectorXd ub = Eigen::VectorXd::Constant(nV, 300);
 
     // 转换为qpOASES使用的格式
     std::vector<qpOASES::real_t> H_arr = eigen2QpArray(H_qp);
@@ -57,7 +57,7 @@ Eigen::VectorXd Prediction(
 
     // nWSR 是最大允许的划分树重构次数
     // 该变量传入后会被求解器内部修改为实际迭代次数
-    int nWSR = 1000;
+    int nWSR = 500;
 
     // 初始化并求解二次规划问题
     // 注意：由于没有通用的线性矩阵约束 A*x，这里直接调用 5 个参数的 init 即可

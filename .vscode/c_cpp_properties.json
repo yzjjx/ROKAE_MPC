@@ -3,7 +3,10 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "F:/ProgramData/anaconda3/envs/mpc_rokae/Library/include/eigen3",
+                "E:/CPP_pac/qpOASES/include",
+                "${workspaceFolder}/include",
             ],
             "defines": [
                 "_DEBUG",

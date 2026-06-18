@@ -270,3 +270,124 @@ dotX_current = robot_dotX(q_current, dq_current, U_K(:,k));
 </div>
 
 ## 4 基于ABA正动力学的关节空间力矩MPC仿真：Mujoco
+### 4.1 Windows下环境配置
+因为这里的代码基本上跟倒立摆的MPC思路非常相似，因此代码参考 https://github.com/yzjjx/MPC_cartpole_c- ，因为这个代码之前是在Ubuntu环境下部署的，这里要转换为Windows环境，需要重新配置一下  
+首先是矩阵计算Eigen库，在安装Pinocchio库之后，Eigen是自动安装的，如果出现报错，修改对应的.vscode\c_cpp_properties.json文件，例如下图：
+
+<div align="center">
+    <img src="fig\fig_4\notEigen.png">
+    <br>
+    图 ：Eigen配置
+</div>
+
+下一步需要配置qpOASES库，在win环境下，首先需要获取qpOASES的源码，可以从GitHub上拉取
+
+<div align="center">
+    <img src="fig\fig_4\git_clone.png">
+    <br>
+    图 ：git clone
+</div>
+
+接下来，需要将源码编译为Windows环境下的动态库或者静态库，这里编译为静态库。编译过程如下面两个图所示：
+
+<div align="center">
+    <img src="fig\fig_4\cmake_qp.png">
+    <br>
+    图 ：CMake
+</div>
+
+<div align="center">
+    <img src="fig\fig_4\qp_build.png">
+    <br>
+    图 ：build
+</div>
+
+然后需要修改自己的CMakeLists，大概加入以下内容即可：
+```C
+target_include_directories(mpc_node PRIVATE 
+    "E:/CPP_pac/qpOASES/include"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include"
+)
+
+target_link_libraries(mpc_node PRIVATE 
+    Eigen3::Eigen
+    pinocchio::pinocchio
+    "E:/CPP_pac/qpOASES/build/libs/Release/qpOASES.lib"
+)
+```
+
+pybind11配置,需要`conda install pybind11`，然后检查一下即可，如下图所示
+
+<div align="center">
+    <img src="fig\fig_4\pybind11_install.png">
+    <br>
+    图 ：pybind11配置
+</div>
+
+### 4.2  URDF模型修改  
+原始的URDF模型有一定的问题，如果需要在VSCODE中可视化URDF模型，可以通过插件URDF Visualizer查看，如下图所示  
+
+<div align="center">
+    <img src="fig\fig_4\fig4.2\install_vs.png">
+    <br>
+    图 ：URDF Visualizer拓展
+</div>
+
+URDF的建模方式与ABA算法的建模方式非常相似，都需要父节点和子节点的相关知识，URDF就是子节点在父节点后面加坐标和旋转  
+首先需要定义每一个连杆的坐标系，如下图所示
+
+<div align="center">
+    <img src="fig\fig_4\fig4.2\coordinate_system.png">
+    <br>
+    图 ：连杆坐标系定义
+</div>
+
+然后在URDF文件中，就可以将这个坐标固定到原点的某个位置上，如下面所示：
+```xml
+  <link name="xMateSR4C_link1">
+    <visual>
+      <geometry>
+        <mesh filename="../stl/xMateSR4C_link1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0.328"/>
+      <material name="white"/>
+    </visual>
+```
+之后，再将旋转坐标系固定到这个需要运行或者旋转的位置上，如下面代码所示：
+```xml
+  <joint name="xmate_joint_1" type="revolute">
+    <parent link="xMateSR4C_base"/>
+    <child link="xMateSR4C_link1"/>
+    <limit effort="300" lower="-3.1416" upper="3.1416" velocity="10"/>
+    <axis xyz="0 0 1"/>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+```
+重点的两行代码为，第一行表示绕什么轴正转或反转，第二行表示距离上一个坐标系（父节点）的距离
+```xml
+<axis xyz="0 0 1"/>
+<origin xyz="0 0 0" rpy="0 0 0" />
+```
+例如如果关节2是关节1向Z轴向上平移0.328个距离，则代码如下：
+```xml
+  <joint name="xmate_joint_2" type="revolute">
+    <parent link="xMateSR4C_link1"/>
+    <child link="xMateSR4C_link2"/>
+    <limit effort="300" lower="-2.4222" upper="2.35619" velocity="10"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 0 0.328" rpy="0 0 0" />
+  </joint>
+```
+完成urdf文件的修改后，点击文件右上角的preview，就可以预览自己的模型是否正确
+
+<div align="center">
+    <img src="fig\fig_4\fig4.2\preview.png">
+    <br>
+    图 ：模型预览按钮
+</div>
+
+<div align="center">
+    <img src="fig\fig_4\fig4.2\preview2.png">
+    <br>
+    图 ：模型预览
+</div>

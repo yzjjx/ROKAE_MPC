@@ -1,70 +1,81 @@
 <mujoco model="xMateSR4C">
-    <compiler angle="radian" meshdir="../stl/" autolimits="true" balanceinertia="true"/>
-  <option gravity="0 0 -9.81"/>
+    <compiler angle="radian" meshdir="../stl/" autolimits="true" />
+    
+    <option gravity="0 0 -9.81" />
 
-  <asset>
-    <material name="white" rgba="1.0 1.0 1.0 1.0"/>
-    <mesh name="base_mesh" file="xMateSR4C_base.stl" scale="0.001 0.001 0.001"/>
-    <mesh name="link1_mesh" file="xMateSR4C_link1.stl" scale="0.001 0.001 0.001"/>
-    <mesh name="link2_mesh" file="xMateSR4C_link2.stl" scale="0.001 0.001 0.001"/>
-    <mesh name="link3_mesh" file="xMateSR4C_link3.stl" scale="0.001 0.001 0.001"/>
-    <mesh name="link4_mesh" file="xMateSR4C_link4.stl" scale="0.001 0.001 0.001"/>
-    <mesh name="link5_mesh" file="xMateSR4C_link5.stl" scale="0.001 0.001 0.001"/>
-    <mesh name="link6_mesh" file="xMateSR4C_link6.stl" scale="0.001 0.001 0.001"/>
-  </asset>
+    <asset>
+        <material name="black" rgba="0.0 0.0 0.0 1.0"/>
+        <material name="blue" rgba="0.0 0.0 0.8 1.0"/>
+        <material name="green" rgba="0.0 0.8 0.0 1.0"/>
+        <material name="grey" rgba="0.2 0.2 0.2 1.0"/>
+        <material name="orange" rgba="1.0 0.423529 0.039215 1.0"/>
+        <material name="brown" rgba="0.870588 0.811764 0.764705 1.0"/>
+        <material name="red" rgba="0.8 0.0 0.0 1.0"/>
+        <material name="white" rgba="1.0 1.0 1.0 1.0"/>
+        <material name="Beige" rgba="1.0 0.784 0.5765 1.0"/>
 
-  <worldbody>
-    <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
-    <geom name="floor" type="plane" size="2 2 0.1" rgba="0.8 0.9 0.8 1"/>
+        <mesh name="base_mesh" file="xMateSR4C_base.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="link1_mesh" file="xMateSR4C_link1.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="link2_mesh" file="xMateSR4C_link2.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="link3_mesh" file="xMateSR4C_link3.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="link4_mesh" file="xMateSR4C_link4.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="link5_mesh" file="xMateSR4C_link5.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="link6_mesh" file="xMateSR4C_link6.stl" scale="0.001 0.001 0.001"/>
+    </asset>
 
-    <body name="xMateSR4C_base" pos="0 0 0">
-      <inertial pos="-0.000072769597 -0.001679187012 0.002986854502" mass="3.44074938" fullinertia="0.01764837 0.016617391 1.120163944 0 0 -0.002218013"/>
-      <geom type="mesh" mesh="base_mesh" material="white"/>
+    <worldbody>
+        <light pos="0 0 2" dir="0 0 -1" diffuse="1 1 1"/>
+        <geom name="floor" type="plane" size="2 2 0.1" rgba="0.9 0.9 0.9 1"/>
 
-      <body name="xMateSR4C_link1" pos="0 0 0">
-        <inertial pos="1.09999999999679e-05 -0.00799199999999364 -0.0921580000000931" mass="3.16699999486378" fullinertia="0.0311679899460595 0.0307127099468431 0.00587739998995415 -6.49999998879087e-07 -4.26999999258665e-06 -0.00223655999611672"/>
-        <joint name="xmate_joint_1" type="hinge" axis="0 0 1" range="-3.1416 3.1416" limited="true" damping="0.5"/>
-        <geom type="mesh" mesh="link1_mesh" material="white" pos="0 0 0.355"/>
+        <body name="xMateSR4C_base" pos="0 0 0">
+            <inertial pos="-0.000072769597 -0.001679187012 0.002986854502" mass="3.16699999486378" fullinertia="0.058267910813839 0.0576103483714700 0.00607968319952077 -3.715826953316560e-07 -1.05949175179955e-06 -0.00456914016524626"/>
+            <geom type="mesh" mesh="base_mesh" material="white" />
 
-        <body name="xMateSR4C_link2" pos="0 0 0.355">
-          <inertial pos="0.169304139589595 -0.0167375750841445 -0.0698168604257776" mass="3.89505775503759" fullinertia="0.0179531824691758 0.132852985273582 0.138139839236999 0.0309224033095523 -0.00240843390062569 0.00071426442226283"/>
-          <joint name="xmate_joint_2" type="hinge" axis="0 1 0" range="-2.4222 2.35619" limited="true" damping="0.5"/>
-          <geom type="mesh" mesh="link2_mesh" material="white"/>
+            <body name="xMateSR4C_link1" pos="0 0 0">
+                <inertial pos="1.09999999999679e-05 -0.00799199999999364 -0.0921580000000931" mass="3.16699999486378" fullinertia="0.058267910813839 0.0576103483714700 0.00607968319952077 -3.715826953316560e-07 -1.05949175179955e-06 -0.00456914016524626"/>
+                <joint name="xmate_joint_1" type="hinge" axis="0 0 1" range="-3.1416 3.1416" />
+                <geom type="mesh" mesh="link1_mesh" material="white" pos="0 0 0.328"/>
 
-          <body name="xMateSR4C_link3" pos="0.05 0 0.4">
-            <inertial pos="-0.00101677311184785 0.0992317670799201 -0.00599764278732221" mass="1.55161965449885" fullinertia="0.0205839772508243 0.00322986952841047 0.0202148376332874 0.0034186607558711 0.000323904256666548 0.00178215039218484"/>
-            <joint name="xmate_joint_3" type="hinge" axis="0 -1 0" range="-2.96555 2.35619" limited="true" damping="0.5"/>
-            <geom type="mesh" mesh="link3_mesh" material="white"/>
+                <body name="xMateSR4C_link2" pos="0 0 0.328">
+                    <inertial pos="0.169304139589595 -0.0167375750841445 -0.0698168604257776" mass="3.89505775503759" fullinertia="0.0380304151034530 0.263486545009477 0.250878539307793 0.0419599871875192 0.0436322529474843 -0.00383736352324302"/>
+                    <joint name="xmate_joint_2" type="hinge" axis="0 1 0" range="-2.4222 2.35619" />
+                    <geom type="mesh" mesh="link2_mesh" material="white" pos="0 0 0"/>
 
-            <body name="xMateSR4C_link4" pos="-0.05 0 0.4">
-              <inertial pos="-2.50011383739252e-05 -0.0109230011023275 -0.071266999970154" mass="1.8819999954753" fullinertia="0.0133198499755109 0.0125198899767503 0.00278827999533888 -1.85000009038544e-06 8.69999115245914e-07 -0.00143893999778065"/>
-              <joint name="xmate_joint_4" type="hinge" axis="0 0 1" range="-3.1416 3.1416" limited="true" damping="0.5"/>
-              <geom type="mesh" mesh="link4_mesh" material="white"/>
+                    <body name="xMateSR4C_link3" pos="0.050 0 0.4031">
+                        <inertial pos="-0.00101677311184785 0.0992317670799201 -0.00599764278732221" mass="1.55161965449885" fullinertia="0.0359185029001311 0.00328728806178666 0.0354951529635439 0.00357521327138579 0.000314442104644629 0.00270560721315391"/>
+                        <joint name="xmate_joint_3" type="hinge" axis="0 -1 0" range="-2.96555 2.35619" />
+                        <geom type="mesh" mesh="link3_mesh" material="white" pos="0 0 0"/>
 
-              <body name="xMateSR4C_link5" pos="0 0.136 0">
-                <inertial pos="-0.00141300709545952 0.0118448713738878 -0.0209142000136706" mass="1.34621855234916" fullinertia="0.00490782058915933 0.00384857289176222 0.00258053503197348 -1.04779487811945e-05 -9.95872429112993e-06 0.000384368912752211"/>
-                <joint name="xmate_joint_5" type="hinge" axis="0 -1 0" range="-3.1416 3.1416" limited="true" damping="0.5"/>
-                <geom type="mesh" mesh="link5_mesh" material="white"/>
+                        <body name="xMateSR4C_link4" pos="-0.050 0 0.4">
+                            <inertial pos="-2.50011383739252e-05 -0.0109230011023275 -0.071266999970154" mass="1.8819999954753" fullinertia="0.0231030453535813 0.0220785414360184 0.00301282626685543 -2.36395069266735e-06 -2.48326590911455e-06 -0.00290398198945597"/>
+                            <joint name="xmate_joint_4" type="hinge" axis="0 0 1" range="-3.1416 3.1416" />
+                            <geom type="mesh" mesh="link4_mesh" material="white" pos="0 0 0"/>
 
-                <body name="xMateSR4C_link6" pos="0 0 0.1035">
-                  <inertial pos="7.29993135608786e-05 7.90001800890199e-05 -0.044852999792348" mass="0.633999997351584" fullinertia="0.000997019998284638 0.00100252999827485 0.000447949999234091 -1.37999999641383e-06 8.99999979434996e-07 1.5800000042753e-06"/>
-                  <joint name="xmate_joint_6" type="hinge" axis="0 0 1" range="-3.14 3.14" limited="true" damping="0.5"/>
-                  <geom type="mesh" mesh="link6_mesh" material="white"/>
+                            <body name="xMateSR4C_link5" pos="0 0.136 0">
+                                <inertial pos="-0.00141300709545952 0.0118448713738878 -0.0209142000136706" mass="1.34621855234916" fullinertia="0.00568553742802938 0.00444010179654207 0.00277209865650963 1.20535594054042e-05 -4.97420578495685e-05 0.000717862262034322"/>
+                                <joint name="xmate_joint_5" type="hinge" axis="0 -1 0" range="-3.1416 3.1416" />
+                                <geom type="mesh" mesh="link5_mesh" material="white" pos="0 0 0"/>
+
+                                <body name="xMateSR4C_link6" pos="0 0 0.1035">
+                                    <inertial pos="7.29993135608786e-05 7.90001800890199e-05 -0.044852999792348" mass="0.633999997351584" fullinertia="0.00227249981806468 0.00227800923976532 0.000447957334568561 -1.38365624835237e-06 2.97586698701961e-06 3.82651246364623e-06"/>
+                                    <joint name="xmate_joint_6" type="hinge" axis="0 0 1" range="-3.14 3.14" />
+                                    <geom type="mesh" mesh="link6_mesh" material="white" pos="0 0 0"/>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
                 </body>
-              </body>
             </body>
-          </body>
         </body>
-      </body>
-    </body>
-  </worldbody>
+    </worldbody>
 
-  <actuator>
-    <motor name="motor1" joint="xmate_joint_1" gear="1" ctrllimited="true" ctrlrange="-300 300"/>
-    <motor name="motor2" joint="xmate_joint_2" gear="1" ctrllimited="true" ctrlrange="-300 300"/>
-    <motor name="motor3" joint="xmate_joint_3" gear="1" ctrllimited="true" ctrlrange="-300 300"/>
-    <motor name="motor4" joint="xmate_joint_4" gear="1" ctrllimited="true" ctrlrange="-300 300"/>
-    <motor name="motor5" joint="xmate_joint_5" gear="1" ctrllimited="true" ctrlrange="-300 300"/>
-    <motor name="motor6" joint="xmate_joint_6" gear="1" ctrllimited="true" ctrlrange="-300 300"/>
-  </actuator>
+    <actuator>
+        <motor name="motor1" joint="xmate_joint_1" ctrlrange="-300 300" gear="100"/>
+        <motor name="motor2" joint="xmate_joint_2" ctrlrange="-300 300" gear="1"/>
+        <motor name="motor3" joint="xmate_joint_3" ctrlrange="-300 300" gear="1"/>
+        <motor name="motor4" joint="xmate_joint_4" ctrlrange="-300 300" gear="1"/>
+        <motor name="motor5" joint="xmate_joint_5" ctrlrange="-300 300" gear="1"/>
+        <motor name="motor6" joint="xmate_joint_6" ctrlrange="-300 300" gear="1"/>
+    </actuator>
+
 </mujoco>
