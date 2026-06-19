@@ -4,14 +4,6 @@
 #include "MPC_Matrices.h"
 #include "Prediction.h"
 
-// 声明生成的 CasADi 重力补偿函数 (防止 C++ 找不到 C 语言的函数名)
-extern "C" {
-    // 假设你使用默认的 casadi_int，通常是 long long
-    // 如果编译报错找不到 casadi_int，请将下面的 casadi_int 替换为 long long
-    int compute_dynamics_G(const double** arg, double** res, long long* iw, double* w, int mem);
-    int compute_dynamics_G_work(long long *sz_arg, long long* sz_res, long long *sz_iw, long long *sz_w);
-}
-
 // 实现构造函数，注意前缀 CartpoleMPC::
 RokaeMPC::RokaeMPC() {
     Ts = 0.02;
@@ -91,30 +83,30 @@ Eigen::VectorXd RokaeMPC::compute_control(const Eigen::VectorXd& current_state) 
     // 9. 提取第一步控制量并限幅
     Eigen::VectorXd u_feedback = U_K.head(p);
     
-    // 加入重力补偿矩阵
-    long long sz_arg_G, sz_res_G, sz_iw_G, sz_w_G;
-    compute_dynamics_G_work(&sz_arg_G, &sz_res_G, &sz_iw_G, &sz_w_G);
+    // // 加入重力补偿矩阵
+    // long long sz_arg_G, sz_res_G, sz_iw_G, sz_w_G;
+    // compute_dynamics_G_work(&sz_arg_G, &sz_res_G, &sz_iw_G, &sz_w_G);
 
-    std::vector<const double*> arg_G(sz_arg_G, nullptr);
-    std::vector<double*> res_G(sz_res_G, nullptr);
-    std::vector<long long> iw_G(sz_iw_G, 0);
-    std::vector<double> w_G(sz_w_G, 0.0);
+    // std::vector<const double*> arg_G(sz_arg_G, nullptr);
+    // std::vector<double*> res_G(sz_res_G, nullptr);
+    // std::vector<long long> iw_G(sz_iw_G, 0);
+    // std::vector<double> w_G(sz_w_G, 0.0);
 
-    // 绑定输入：q
-    arg_G[0] = q.data();
+    // // 绑定输入：q
+    // arg_G[0] = q.data();
 
-    // 绑定输出：G矩阵 (维度为 6x1)
-    std::vector<double> G_data(n_dof, 0.0);
-    res_G[0] = G_data.data();
+    // // 绑定输出：G矩阵 (维度为 6x1)
+    // std::vector<double> G_data(n_dof, 0.0);
+    // res_G[0] = G_data.data();
 
-    // 执行计算
-    compute_dynamics_G(arg_G.data(), res_G.data(), iw_G.data(), w_G.data(), 0);
+    // // 执行计算
+    // compute_dynamics_G(arg_G.data(), res_G.data(), iw_G.data(), w_G.data(), 0);
 
-    // 映射回 Eigen 向量
-    Eigen::Map<Eigen::VectorXd> G_vec(G_data.data(), p);
+    // // 映射回 Eigen 向量
+    // Eigen::Map<Eigen::VectorXd> G_vec(G_data.data(), p);
 
     // 实际控制力矩
-    Eigen::VectorXd actual_u = u_feedback + G_vec;
+    Eigen::VectorXd actual_u = u_feedback;// + G_vec;
 
     // 对每个关节的力矩进行限幅 (假设最大扭矩限制为 50 Nm)
     for(int i = 0; i < p; ++i) {

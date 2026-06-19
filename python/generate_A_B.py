@@ -57,11 +57,11 @@ A_sym = casadi.jacobian(dotX_sym, X_sym)
 # B = d(dotX) / du
 B_sym = casadi.jacobian(dotX_sym, u_sym)
 
-# 打包成 CasADi 函数
+# 打包成 CasADi 函数，同时需要将稀疏矩阵稠密化，即加上casadi.densify(A_sym)
 AB_func = casadi.Function(
     'compute_AB',
     [cq, cdq, ctau],
-    [A_sym, B_sym],
+    [casadi.densify(A_sym), casadi.densify(B_sym)],
     ['q', 'dq', 'tau'],
     ['A', 'B']
 )

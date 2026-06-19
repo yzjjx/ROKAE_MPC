@@ -44,7 +44,7 @@ num_u = model.nu  # 执行器数量 (控制维度)
 print(f"成功加载机器人模型。关节数(nq): {num_q}, 速度维数(nv): {num_v}, 控制轴数(nu): {num_u}")
 
 # 可选：设置机器人的初始姿态（为每个关节的角度）
-initial_degrees = [0.0, 10.0, 10.0, -0.0, 0.0, 0.0]
+initial_degrees = [0.0, 30.0, 30.0, -0.0, 0.0, 0.0]
 data.qpos[:] = np.deg2rad(initial_degrees)
 
 # 初始化缓存列表
