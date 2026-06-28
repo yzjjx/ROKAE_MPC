@@ -444,3 +444,49 @@ AB_func = casadi.Function(
 将镇定控制改为随动控制，就是将状态收敛到0的代价函数改为将跟踪参考轨迹的误差的代价函数，也就是：  
 镇定控制是让状态`current_state=0`  
 随动控制需要引入参考状态，在这里引入参考状态`x_ref=q_ref;`此时就相当于让误差x_error趋近于0，`x_error=current_state-x_ref`  
+为了能在仿真通过python的input函数在终端中实时改变角度，需要建立两个线程，一个线程是运行mujuco和控制器，一个线程用来读取input函数里面输入的角度，需要`import threading`  
+然后加入输入线程：
+
+```python
+def input_thread():
+    global q_ref
+
+    while True:
+        try:
+            text = input("输入新的关节期望角度，单位度，用空格分隔：")
+
+            new_ref_deg = np.array(
+                [float(x) for x in text.split()],
+                dtype=np.float64
+            )
+
+            if len(new_ref_deg) != num_q:
+                print(f"输入维度错误，应为 {num_q} 个角度")
+                continue
+
+            with q_ref_lock:
+                q_ref = np.deg2rad(new_ref_deg).astype(np.float64)
+
+            print("目标角度:", new_ref_deg)
+
+        except Exception as e:
+            print("输入错误:", e)
+```
+然后启动目标位置输入线程：
+```python
+threading.Thread(target=input_thread, daemon=True).start()
+```
+在主循环，记得使用with加锁，防止重复输入导致冲突  
+最终实现的机器人MPC随动控制效果如下图所示：
+
+<div align="center">
+    <img src="fig\fig_4\fig4.3\MPC_TRA.png">
+    <br>
+    图 ：机器人MPC随动控制
+</div>
+
+控制效果视频如下图：  
+加入扰动  
+
+输入目标位置  
+

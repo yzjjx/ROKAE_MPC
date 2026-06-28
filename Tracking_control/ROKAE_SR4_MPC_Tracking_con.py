@@ -5,6 +5,7 @@ import os
 import mujoco
 import mujoco.viewer
 import numpy as np
+import threading
 
 # 1. 导入并初始化控制器
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -40,6 +41,8 @@ ref_input = input("输入关节期望位置，单位为度，用空格分隔")
 q_ref_deg = np.array([float(x) for x in ref_input.split()],dtype=np.float64)
 
 q_ref = np.deg2rad(q_ref_deg).astype(np.float64)
+# 加锁，防止主循环运行过程中，还一直修改q_ref的内容
+q_ref_lock = threading.Lock()
 
 # 获取系统物理参数
 dt = model.opt.timestep
@@ -62,6 +65,32 @@ print("MuJoCo 机器人仿真启动...")
 # 3. 启动仿真循环
 print("MuJoCo 机器人仿真启动...")
 
+def input_thread():
+    global q_ref
+
+    while True:
+        try:
+            text = input("输入新的关节期望角度，单位度，用空格分隔：")
+
+            new_ref_deg = np.array(
+                [float(x) for x in text.split()],
+                dtype=np.float64
+            )
+
+            if len(new_ref_deg) != num_q:
+                print(f"输入维度错误，应为 {num_q} 个角度")
+                continue
+
+            with q_ref_lock:
+                q_ref = np.deg2rad(new_ref_deg).astype(np.float64)
+
+            print("已更新目标角度:", new_ref_deg)
+
+        except Exception as e:
+            print("输入错误:", e)
+
+threading.Thread(target=input_thread, daemon=True).start()
+
 # ==========================================
 # 【新增】设置画面渲染帧率，限制在 60 FPS
 # ==========================================
@@ -79,7 +108,11 @@ with mujoco.viewer.launch_passive(model, data) as viewer:
 
         # 2. 计算最优控制力矩
         mpc_start = time.time()
-        u_opt = mpc.compute_control(current_state,q_ref)
+        # 加锁，防止修改冲突
+        with q_ref_lock:
+            q_ref_now = q_ref.copy()
+
+        u_opt = mpc.compute_control(current_state, q_ref_now)
         mpc_time = time.time() - mpc_start
         
         # 警告机制：如果 MPC 计算时间超过了物理步长，必然会引起卡顿！
