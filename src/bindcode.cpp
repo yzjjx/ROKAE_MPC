@@ -2,7 +2,10 @@
 #include <pybind11/eigen.h> 
 
 // 包含.h头文件即可
-#include "ROKAE_SR4_MPC_sim.h"  
+// 镇定控制
+// #include "ROKAE_SR4_MPC_sim.h"  
+// 随动控制
+#include "ROKAE_SR4_MPC_TRACK_sim.h"
 
 namespace py = pybind11;
 // MPC_test1为打包出来的动态库的名字，m代表模块本身，doc表示模块说明书，在python中

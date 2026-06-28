@@ -35,7 +35,8 @@ pybind11_add_module(MPC_ROKAE
     src/Prediction.cpp
     src/MPC_Matrices.cpp
     src/bindcode.cpp
-    src/ROKAE_SR4_MPC_sim.cpp
+    # src/ROKAE_SR4_MPC_sim.cpp
+    src/ROKAE_SR4_MPC_TRACK_sim.cpp
     src/robot_dynamics_G.c
 )
 

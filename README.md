@@ -416,7 +416,7 @@ AB_func = casadi.Function(
 之后，需要在当前部署的python环境中进行cmake，不然默认进行build就会输出错误版本的动态链接库文件，详细描述见仓库 https://github.com/yzjjx/MPC_cartpole_c-
 我这里使用的代码为：` cmake -DPython_EXECUTABLE="F:/ProgramData/anaconda3/envs/mpc_rokae/python.exe" -DPython3_EXECUTABLE="F:/ProgramData/anaconda3/envs/mpc_rokae/python.exe" -DPYTHON_EXECUTABLE="F:/ProgramData/anaconda3/envs/mpc_rokae/python.exe" ..`，其中，-D为define，定义变量，然后使用变量名字=路径的方式强行修改CMake内部的寻址配置，之后，用..来指向上一级目录，告诉CMake去哪里寻找CMakeLists.txt，因此终端目录需要是build文件夹，才能使用这个命令。
 
-最终运行视频如下所示（镇定控制）：
+最终运行视频如下所示（镇定控制）(未添加重力补偿)：
 
 <div align="center">
     <img src="fig\fig_4\fig4.3\finally_test.gif">
@@ -438,4 +438,9 @@ AB_func = casadi.Function(
     图 ：机器人输出dq
 </div>
 
-如视频所示的输出文件保存在文件夹：output_20260619
+如视频所示的输出文件保存在文件夹：output_20260619 
+
+## 5 机器人MPC随动控制：Mujoco
+将镇定控制改为随动控制，就是将状态收敛到0的代价函数改为将跟踪参考轨迹的误差的代价函数，也就是：  
+镇定控制是让状态`current_state=0`  
+随动控制需要引入参考状态，在这里引入参考状态`x_ref=q_ref;`此时就相当于让误差x_error趋近于0，`x_error=current_state-x_ref`  
