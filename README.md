@@ -501,5 +501,3 @@ threading.Thread(target=input_thread, daemon=True).start()
     <br>
     图 ：机器人MPC随动控制:输入目标位置
 </div>
-
-## 6 加入重力补偿
