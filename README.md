@@ -488,5 +488,18 @@ threading.Thread(target=input_thread, daemon=True).start()
 控制效果视频如下图：  
 加入扰动  
 
+<div align="center">
+    <img src="fig\fig_4\fig4.3\tracking_add.gif">
+    <br>
+    图 ：机器人MPC随动控制:加入扰动
+</div>
+
 输入目标位置  
 
+<div align="center">
+    <img src="fig\fig_4\fig4.3\tracking_pos.gif">
+    <br>
+    图 ：机器人MPC随动控制:输入目标位置
+</div>
+
+## 6 加入重力补偿
